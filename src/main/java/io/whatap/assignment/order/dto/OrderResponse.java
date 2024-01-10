@@ -66,7 +66,7 @@ public class OrderResponse extends CommonDto {
         .build();
   }
 
-  public static OrderResponse from(final Order order,List<OrderProducts> productList, final List<OrderSteps> statusList) {
+  public static OrderResponse of(final Order order,List<OrderProducts> productList, final List<OrderSteps> statusList) {
     return OrderResponse.builder()
         .id(order.getId())
         .createdOn(order.getCreatedOn())

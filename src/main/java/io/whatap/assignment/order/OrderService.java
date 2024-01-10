@@ -137,7 +137,7 @@ public class OrderService {
       // insert
       orderStepRepository.save(status);
       // 결과 맵핑
-      return OrderResponse.from(order, products, List.of(status));
+      return OrderResponse.of(order, products, List.of(status));
     } catch (Exception e) {
       log.error(e.getMessage(), e);
       handlingException(reqeust);
