@@ -47,7 +47,7 @@ public class OrderService {
   @MethodLogWriter
   public OrderResponse getOrder(final Long id) {
     Order order = orderRepository.findById(id)
-        .orElseThrow(() -> new RestApiException(OrderError.PRODUCT_NOT_FOUND));
+        .orElseThrow(() -> new RestApiException(OrderError.ORDER_NOT_FOUND));
     log.debug("Order Product Size {}", order.getOrderProducts().size());
     log.debug("Order Status Size {}", order.getOrderSteps().size());
 
@@ -64,20 +64,10 @@ public class OrderService {
   public List<OrderResponse> getOrderList(final String requesterId) {
 
     List<Order> list = orderRepository.findAllByRequesterId(requesterId);
-
-    return list.stream().map((order) -> {
-      return OrderResponse.builder()
-          .id(order.getId())
-          .createdOn(order.getCreatedOn())
-          .modifiedOn(order.getModifiedOn())
-          .requesterId(order.getRequesterId())
-          .contact(order.getContact())
-          .address(order.getAddress())
-          .orderTotalPrice(order.getOrderTotalPrice())
-          .orderProductList(order.getOrderProducts().stream().map(ProductResponse::from).toList())
-          .build();
-
-    }).toList();
+    if(list.isEmpty()) {
+      throw new RestApiException(OrderError.ORDER_NOT_FOUND);
+    }
+    return list.stream().map(OrderResponse::from).toList();
 
   }
 

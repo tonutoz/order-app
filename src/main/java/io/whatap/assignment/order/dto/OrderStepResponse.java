@@ -14,26 +14,23 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Slf4j
 @Getter
-public class OrderStatusResponse extends CommonEntity {
+public class OrderStepResponse extends CommonEntity {
 
   private Long id;
 
   private String orderStepDesc;
 
   @Builder
-  public OrderStatusResponse(Long id,LocalDateTime createdOn, LocalDateTime modifiedOn, String orderStepDesc) {
+  public OrderStepResponse(Long id,LocalDateTime createdOn, LocalDateTime modifiedOn, String orderStepDesc) {
     this.id = id;
     this.createdOn = createdOn;
     this.modifiedOn = modifiedOn;
     this.orderStepDesc = orderStepDesc;
   }
 
-  public static OrderStatusResponse from(final OrderSteps status){
+  public static OrderStepResponse from(final OrderSteps status){
 
-    log.debug("Status getOrder Id {}" , status.getId());
-    log.debug("Status getOrderStepDesc {}" , status.getOrderStepDesc());
-
-    return OrderStatusResponse.builder()
+    return OrderStepResponse.builder()
         .id(status.getId())
         .createdOn(status.getCreatedOn())
         .modifiedOn(status.getModifiedOn())

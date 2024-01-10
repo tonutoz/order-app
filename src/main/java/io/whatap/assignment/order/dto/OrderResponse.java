@@ -17,21 +17,21 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class OrderResponse extends CommonDto {
 
-  private Long id;
-  private String requesterId;
-  private String contact;
-  private String address;
-  private String memo;
-  private Integer orderTotalPrice;
+  private final Long id;
+  private final String requesterId;
+  private final String contact;
+  private final String address;
+  private final String memo;
+  private final Integer orderTotalPrice;
 
   private List<ProductResponse> orderProductList;
 
-  private List<OrderStatusResponse> orderStatuseList;
+  private List<OrderStepResponse> orderStatuseList;
 
   @Builder
   public OrderResponse(Long id, LocalDateTime createdOn, LocalDateTime modifiedOn,
       String requesterId, String contact,
-      String address, String memo, Integer orderTotalPrice, List<ProductResponse> orderProductList, List<OrderStatusResponse> orderStatuseList) {
+      String address, String memo, Integer orderTotalPrice, List<ProductResponse> orderProductList, List<OrderStepResponse> orderStatuseList) {
     this.id = id;
     this.createdOn = createdOn;
     this.modifiedOn = modifiedOn;
@@ -62,7 +62,7 @@ public class OrderResponse extends CommonDto {
         .memo(order.getMemo())
         .orderTotalPrice(order.getOrderTotalPrice())
         .orderProductList(order.getOrderProducts().stream().map(ProductResponse::from).toList())
-        .orderStatuseList(order.getOrderSteps().stream().map(OrderStatusResponse::from).toList())
+        .orderStatuseList(order.getOrderSteps().stream().map(OrderStepResponse::from).toList())
         .build();
   }
 
@@ -77,7 +77,7 @@ public class OrderResponse extends CommonDto {
         .memo(order.getMemo())
         .orderTotalPrice(order.getOrderTotalPrice())
         .orderProductList(productList.stream().map(ProductResponse::from).toList())
-        .orderStatuseList(statusList.stream().map(OrderStatusResponse::from).toList())
+        .orderStatuseList(statusList.stream().map(OrderStepResponse::from).toList())
         .build();
   }
 
