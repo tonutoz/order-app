@@ -1,6 +1,7 @@
 package io.whatap.assignment.order.validation;
 
 import io.whatap.assignment.cmm.exception.ErrorResponse.ValidationError;
+import io.whatap.assignment.cmm.validation.RequestEntityValidator;
 import io.whatap.assignment.order.dto.OrderRequest;
 import io.whatap.assignment.order.dto.ProductRequest;
 import java.util.ArrayList;
