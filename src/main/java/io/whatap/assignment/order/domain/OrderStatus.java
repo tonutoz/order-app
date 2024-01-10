@@ -11,7 +11,7 @@ public enum OrderStatus {
   ORDER("쭈문완료"),
   CANCEL("주문취소");
 
-  private String desc;
+  private final String desc;
 
 
 

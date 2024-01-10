@@ -1,6 +1,5 @@
 package io.whatap.assignment.order.exception;
 
-import io.whatap.assignment.cmm.exception.CommonError;
 import io.whatap.assignment.cmm.exception.ErrorType;
 import java.util.Arrays;
 import lombok.Getter;

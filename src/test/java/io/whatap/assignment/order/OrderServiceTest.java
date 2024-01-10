@@ -14,7 +14,7 @@ public class OrderServiceTest {
   @BeforeAll
   public static void setupList() {
     list = IntStream.rangeClosed(0,3).boxed().map(i-> {
-      return ProductOrderResponse.builder().amont(1000).quentity(3).build();
+      return ProductOrderResponse.builder().amount(1000).quantity(3).build();
     }).toList();
   }
 

@@ -1,7 +1,6 @@
 package io.whatap.assignment.rest;
 
 import java.net.URI;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;

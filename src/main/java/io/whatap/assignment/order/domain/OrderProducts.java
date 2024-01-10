@@ -1,7 +1,6 @@
 package io.whatap.assignment.order.domain;
 
 import io.whatap.assignment.cmm.domain.CommonEntity;
-import io.whatap.assignment.order.dto.ProductRequest;
 import io.whatap.assignment.order.product.dto.ProductOrderRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

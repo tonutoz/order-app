@@ -3,7 +3,6 @@ package io.whatap.assignment.order.domain;
 import io.whatap.assignment.cmm.domain.CommonEntity;
 import io.whatap.assignment.cmm.exception.RestApiException;
 import io.whatap.assignment.order.dto.OrderModifyRequest;
-import io.whatap.assignment.order.dto.OrderRequest;
 import io.whatap.assignment.order.exception.OrderError;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

@@ -6,6 +6,7 @@ import io.whatap.assignment.cmm.exception.ErrorResponse;
 import io.whatap.assignment.cmm.exception.RestApiException;
 import io.whatap.assignment.order.exception.OrderError;
 import io.whatap.assignment.order.exception.ProductError;
+import java.nio.charset.StandardCharsets;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.ResponseErrorHandler;
@@ -46,13 +47,14 @@ public class RestTemplateErrorHandler implements ResponseErrorHandler {
     private ErrorResponse getErrorResponse(ClientHttpResponse httpResponse) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         try (InputStream inputStreamObject = httpResponse.getBody();
-            BufferedReader streamReader = new BufferedReader(new InputStreamReader(inputStreamObject, "UTF-8"))){
+            BufferedReader streamReader = new BufferedReader(new InputStreamReader(inputStreamObject,
+                StandardCharsets.UTF_8))){
             StringBuilder sb = new StringBuilder();
             String line;
             while ((line = streamReader.readLine()) != null) {
                 sb.append(line);
             }
-            log.error("Error JSON str {}", sb.toString());
+            log.error("Error JSON str {}", sb);
             return mapper.readValue(sb.toString(),ErrorResponse.class);
         }
     }

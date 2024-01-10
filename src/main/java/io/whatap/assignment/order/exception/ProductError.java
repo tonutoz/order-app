@@ -23,9 +23,7 @@ public enum ProductError implements ErrorType {
   private final String errorMsg;
 
   public static ProductError of(final String errorCode) {
-    return Arrays.stream(values()).filter(t-> {
-      return t.getErrorCode().equals(errorCode);
-    }).findFirst().orElse(PRODUCT_NOT_FOUND);
+    return Arrays.stream(values()).filter(t-> t.getErrorCode().equals(errorCode)).findFirst().orElse(PRODUCT_NOT_FOUND);
   }
 
 }
