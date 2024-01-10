@@ -5,6 +5,7 @@ import io.whatap.assignment.cmm.exception.ErrorResponse;
 import io.whatap.assignment.cmm.exception.ErrorResponse.ValidationError;
 import io.whatap.assignment.cmm.exception.ErrorType;
 import io.whatap.assignment.cmm.exception.RestApiException;
+import io.whatap.assignment.order.exception.InvalidRequestException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -18,26 +19,31 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @Slf4j
 public class OrderExceptionController extends ResponseEntityExceptionHandler {
 
+  @ExceptionHandler(InvalidRequestException.class)
+  public ResponseEntity<?> handleValidateException(InvalidRequestException e) {
+    return handleExceptionInternal(e.getErrorType(), e.getValidateErrorList());
+  }
+
   @ExceptionHandler(RestApiException.class)
-  public ResponseEntity<Object> handleCustomException(RestApiException e) {
+  public ResponseEntity<?> handleCustomException(RestApiException e) {
     return handleExceptionInternal(e.getErrorType());
   }
 
   @ExceptionHandler(IllegalArgumentException.class)
-  public ResponseEntity<Object> handleIllegalArgument(IllegalArgumentException e) {
+  public ResponseEntity<?> handleIllegalArgument(IllegalArgumentException e) {
     log.warn("handleIllegalArgument", e);
     ErrorType errorCode = CommonError.INVALID_PARAMETER;
     return handleExceptionInternal(errorCode, e.getMessage());
   }
 
   @ExceptionHandler({Exception.class})
-  public ResponseEntity<Object> handleAllException(Exception ex) {
+  public ResponseEntity<?> handleAllException(Exception ex) {
     log.warn("handleAllException", ex);
     ErrorType errorType = CommonError.INTERNAL_SERVER_ERROR;
     return handleExceptionInternal(errorType);
   }
 
-  private ResponseEntity<Object> handleExceptionInternal(ErrorType errorType) {
+  private ResponseEntity<?> handleExceptionInternal(ErrorType errorType) {
     return ResponseEntity.status(errorType.getHttpStatus())
         .body(makeErrorResponse(errorType));
   }
@@ -49,7 +55,7 @@ public class OrderExceptionController extends ResponseEntityExceptionHandler {
         .build();
   }
 
-  private ResponseEntity<Object> handleExceptionInternal(ErrorType errorType, String message) {
+  private ResponseEntity<?> handleExceptionInternal(ErrorType errorType, String message) {
     return ResponseEntity.status(errorType.getHttpStatus())
         .body(makeErrorResponse(errorType, message));
   }
@@ -61,19 +67,13 @@ public class OrderExceptionController extends ResponseEntityExceptionHandler {
         .build();
   }
 
-  private ResponseEntity<Object> handleExceptionInternal(
-      BindException e, ErrorType errorType) {
+  private ResponseEntity<?> handleExceptionInternal(
+      ErrorType errorType, List<ValidationError> validationErrorList) {
     return ResponseEntity.status(errorType.getHttpStatus())
-        .body(makeErrorResponse(e, errorType));
+        .body(makeErrorResponse(errorType,validationErrorList));
   }
 
-  private ErrorResponse makeErrorResponse(BindException e, ErrorType errorType) {
-    List<ValidationError> validationErrorList = e.getBindingResult()
-        .getFieldErrors()
-        .stream()
-        .map(ErrorResponse.ValidationError::of)
-        .collect(Collectors.toList());
-
+  private ErrorResponse makeErrorResponse(ErrorType errorType, List<ValidationError> validationErrorList) {
     return ErrorResponse.builder()
         .code(errorType.getErrorCode())
         .message(errorType.getErrorMsg())

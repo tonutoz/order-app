@@ -18,6 +18,7 @@ public enum OrderError implements ErrorType {
   PRODUCT_NOT_FOUND(HttpStatus.BAD_REQUEST, "ERR-02-003", "주문 제품 정보가 존재하지 않습니다."),
   PRODUCT_IS_SOLDOUT(HttpStatus.BAD_REQUEST, "ERR-02-004", "상품이 품절 되었습니다."),
   PRODUCT_NOT_AVAILABLE(HttpStatus.BAD_REQUEST, "ERR-02-005", "상품이 재고가 충분치 않습니다."),
+  ORDER_REQ_NOT_VALID(HttpStatus.BAD_REQUEST, "ERR-02-006", "데이터 요청이 잘못되었습니다."),
   ;
 
   private final HttpStatus httpStatus;

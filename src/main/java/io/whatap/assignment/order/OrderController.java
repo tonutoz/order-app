@@ -2,9 +2,14 @@ package io.whatap.assignment.order;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.whatap.assignment.cmm.aop.ExecutionTimeChecker;
+import io.whatap.assignment.cmm.exception.ErrorResponse.ValidationError;
 import io.whatap.assignment.order.dto.OrderModifyRequest;
 import io.whatap.assignment.order.dto.OrderRequest;
 import io.whatap.assignment.order.dto.OrderResponse;
+import io.whatap.assignment.order.exception.InvalidRequestException;
+import io.whatap.assignment.order.exception.OrderError;
+import io.whatap.assignment.order.validation.OrderRequestEntityValidator;
+import io.whatap.assignment.order.validation.RequestEntityValidator;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +36,10 @@ public class OrderController {
 
   private final OrderService orderService;
 
+  private final RequestEntityValidator<OrderRequest> createValidator;
+
+  private final RequestEntityValidator<OrderModifyRequest> modifyValidator;
+
   @ExecutionTimeChecker
   @GetMapping("/{id}")
   public ResponseEntity<OrderResponse> getOrder(@PathVariable final Long id){
@@ -52,7 +61,12 @@ public class OrderController {
   public ResponseEntity<OrderResponse> requestOrder(@RequestBody @Valid final OrderRequest request) {
     log.info("{}",request);
 
-    //TODO 주문 검증 로직 추가 필요함...
+    List<ValidationError> validationErrorList = createValidator.validate(request);
+
+    if(!validationErrorList.isEmpty()) {
+      log.debug("validation Error size {}", validationErrorList.size());
+      throw new InvalidRequestException(OrderError.ORDER_REQ_NOT_VALID,validationErrorList);
+    }
 
     OrderResponse response = orderService.createOrder(request);
     return ResponseEntity.ok(response);
@@ -62,6 +76,13 @@ public class OrderController {
   @PutMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   public ResponseEntity<OrderModifyRequest> updateOrder(@PathVariable final Long id, @RequestBody @Valid final OrderModifyRequest request) {
+    List<ValidationError> validationErrorList = modifyValidator.validate(request);
+
+    if(!validationErrorList.isEmpty()) {
+      log.debug("validation Error size {}", validationErrorList.size());
+      throw new InvalidRequestException(OrderError.ORDER_REQ_NOT_VALID,validationErrorList);
+    }
+
     return ResponseEntity.ok(orderService.updateOrder(id,request));
   }
 
