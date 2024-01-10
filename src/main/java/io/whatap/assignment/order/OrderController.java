@@ -74,7 +74,7 @@ public class OrderController {
   @ExecutionTimeChecker
   @PutMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public ResponseEntity<OrderModifyRequest> updateOrder(@PathVariable final Long id, @RequestBody @Valid final OrderModifyRequest request) {
+  public ResponseEntity<OrderResponse> updateOrder(@PathVariable final Long id, @RequestBody @Valid final OrderModifyRequest request) {
     List<ValidationError> validationErrorList = modifyValidator.validate(request);
 
     if(!validationErrorList.isEmpty()) {

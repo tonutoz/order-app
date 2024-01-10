@@ -137,7 +137,7 @@ public class OrderService {
 
   @MethodLogWriter
   @Transactional
-  public OrderModifyRequest updateOrder(final Long id, final OrderModifyRequest request) {
+  public OrderResponse updateOrder(final Long id, final OrderModifyRequest request) {
 
     Order order = orderRepository.findById(id)
         .orElseThrow(() -> new RestApiException(OrderError.PRODUCT_NOT_FOUND));
@@ -163,7 +163,7 @@ public class OrderService {
       order.totalAmountUpdate(updateAmount);
     }
 
-    return request;
+    return OrderResponse.from(order);
   }
 
   /**
