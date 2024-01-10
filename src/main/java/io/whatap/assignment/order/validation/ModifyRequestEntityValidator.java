@@ -24,7 +24,7 @@ public class ModifyRequestEntityValidator implements RequestEntityValidator<Orde
     List<ValidationError> errorList = new ArrayList<>();
 
     List<ProductOrderRequest> productModifyList = request.getProductModifyList();
-    if (!Objects.isNull(productModifyList)) {
+    if (Objects.nonNull(productModifyList)) {
       int index = 0;
       for (ProductOrderRequest p : productModifyList) {
         if (Objects.isNull(p.getId())) {
