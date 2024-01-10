@@ -183,7 +183,7 @@ public class OrderService {
     //상품 서비스에 데이터 요청....
     List<ProductOrderRequest> cancelRequests = order.getOrderProducts().stream().map((product) -> {
       return ProductOrderRequest.builder()
-          .id(product.getProductId())
+          .productId(product.getProductId())
           .reqQuantity(product.getOrderQuantity())
           .build();
     }).toList();

@@ -37,7 +37,7 @@ public class OrderRequestEntityValidator implements RequestEntityValidator<Order
       errorList.add(ValidationError.builder().field("address").message(IS_NULL).build());
     }
 
-    if (request.getProductList().isEmpty()) {
+    if (Objects.isNull(request.getProductList())) {
       errorList.add(ValidationError.builder().field("productList").message(IS_NULL).build());
     } else {
       int index = 0;
